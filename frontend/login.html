@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Form</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+        background-color: #f8f9fa; /* Cinza claro */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    
+    .form-container {
+        background-color: #ffffff; /* Branco */
+        padding: 100px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        min-width: 200px;
+        min-width: 600px;
+        /* width: 100%; */
+
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 form-container">
+            <h2 class="text-center mb-4" style="font-weight: 700;">Bem-vindo!</h2>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                    <div class="invalid-feedback">Por favor, insira um endereço de e-mail válido.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="d-grid gap-2">
+                    <button
+                        type="submit"
+                        name="buttonSubmit"
+                        id="submit"
+                        class="btn btn-primary"
+                    >
+                        Login
+                    </button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle JS (including Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        var formData = new FormData(this); // Get form data
+        const email = formData.get("email");
+        const password = formData.get("password");
+
+        // Create a JavaScript object to hold the form data
+        const data = {
+            email: email,
+            password: password
+        };
+
+        // Convert the JavaScript object to JSON string
+        const dataJSON = JSON.stringify(data);
+
+        // Send POST request
+        fetch('http://127.0.0.1:8000/v1/login', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: dataJSON
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse response JSON
+        })
+        .then(data => {
+            // Store access_token in sessionStorage
+            if (data.access_token) {
+                sessionStorage.setItem('access_token', data.access_token);
+                alert('Login successful!');
+                window.location.href = "http://127.0.0.1:5500/frontend/tweets.html";
+                
+                // Redirect or perform any other action after successful login
+            } else {
+                throw new Error('Access token not found in response');
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the login:', error);
+            alert(`Login failed. Please try again. ${response}`);
+        });
+    });
+
+    // Email validation using Bootstrap classes
+    var emailInput = document.getElementById('email');
+    var passwordInput = document.getElementById('password');
+
+    emailInput.addEventListener('blur', function() {
+        if (emailInput.validity.typeMismatch) {
+            emailInput.classList.add('is-invalid');
+        } else {
+            emailInput.classList.remove('is-invalid');
+        }
+    });
+    passwordInput.addEventListener('input', function() {
+        if (emailInput.validity.typeMismatch) {
+            emailInput.classList.add('is-invalid');
+        } else {
+            emailInput.classList.remove('is-invalid');
+        }
+    });
+</script>
+
+</body>
+</html>

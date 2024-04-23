@@ -8,6 +8,8 @@ form.addEventListener("submit", async (event) => {
   const username = formData.get("idUsername");
   const email = formData.get("idEmail");
   const password = formData.get("idPassword");
+  const statusOk = document.getElementById("statusOk");
+  const statusError = document.getElementById("statusError");
 
   // Create a JavaScript object to hold the form data
   const data = {
@@ -32,8 +34,10 @@ form.addEventListener("submit", async (event) => {
     if (response.ok) {
       const responseData = await response.json();
       console.log("Resposta do servidor:", responseData);
+      window.location.href = "http://127.0.0.1:5500/frontend/login.html";
     } else {
       console.error("Erro na requisição:", response.statusText);
+      statusError.style.display = "block";
     }
   } catch (error) {
     console.error("Erro na requisição:", error);

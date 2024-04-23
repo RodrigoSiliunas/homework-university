@@ -1,7 +1,11 @@
-const button = document.querySelector('#buttonCreate');
-const createUserForm = document.querySelector('#userForm');
+const buttonCreate = document.querySelector('#buttonCreate');
+const buttonLogin = document.querySelector('#buttonLogin');
 
 
-button.addEventListener('click', () => {
-  createUserForm.style.display = 'block';
+buttonCreate.addEventListener('click', () => {
+  window.location.href = "http://127.0.0.1:5500/frontend/create-account.html";
+});
+
+buttonLogin.addEventListener('click', () => {
+  window.location.href = "http://127.0.0.1:5500/frontend/login.html";
 });
