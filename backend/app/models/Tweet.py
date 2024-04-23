@@ -12,6 +12,7 @@ class Tweet(SQLModel, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
+    # Converte o modelo de dados para o tipo dicionário em Python.
     def to_dict(self) -> dict:
         return {
             "id": self.id,

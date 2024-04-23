@@ -24,6 +24,7 @@ from app.packages.Auth import (
 router = APIRouter(prefix="/v1")
 
 
+# UserLogin é um JSON com email e senha;
 class UserLogin(BaseModel):
     email: str
     password: str
@@ -34,10 +35,12 @@ async def authenticate_user(request: UserLogin = Body(...)) -> JSONResponse:
     with Session(engine) as session:
         user_exists = session.query(User).filter(
             User.email == request.email).first()
-        valid_password = verify_password(
-            request.password, user_exists.password)
 
-        if not user_exists or not valid_password:
+        if user_exists is not None:
+            valid_password = verify_password(
+                request.password, user_exists.password)
+
+        if user_exists is None or not valid_password:
             raise HTTPException(
                 detail={
                     "error": {
