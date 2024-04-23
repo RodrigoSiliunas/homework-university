@@ -1,3 +1,7 @@
-document.getElementById('button').addEventListener('click', function() {
-    document.getElementById('userForm').style.display = 'block';
-  });
+const button = document.querySelector('#buttonCreate');
+const createUserForm = document.querySelector('#userForm');
+
+
+button.addEventListener('click', () => {
+  createUserForm.style.display = 'block';
+});

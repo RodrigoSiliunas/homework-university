@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "aplicação",
+        "condecimal",
+        "fastapi",
+        "passlib",
+        "pydantic",
+        "sqlalchemy",
+        "sqlmodel",
+        "uvicorn"
+    ]
+}

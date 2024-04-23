@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from sqlmodel import SQLModel
 from app.models import (
@@ -26,12 +27,21 @@ from app.routes import (
 """
 
 app = FastAPI()
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
 
 
 # Lógica para inicialização do nosso banco de dados;
 # TODO: Fazer a verificação, caso as tabelas já estejam criadas não tentar criar novamente.
 SQLModel.metadata.create_all(engine)
-
 
 # Registro das minhas rotas:
 app.include_router(users)
